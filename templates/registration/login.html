@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load rest_framework %}
+
+{% block content %}
+<div class="container">
+    <form method="post" id="signup" class="panel-body" action="">
+        <h1>Login</h1>
+        {% csrf_token %}
+        {% render_form serializer %}
+        <div class="text-center" style="margin-top:50px"><input type="submit" class=' btn btn-success center'
+                                                                value="Submit"></div>
+    </form>
+</div>
+{% endblock %}

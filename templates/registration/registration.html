@@ -1,0 +1,40 @@
+{% extends 'base.html' %}
+{% load rest_framework %}
+{% block content %}
+<div class="container">
+
+    <form method="post" id="signup" class="panel-body" action="">
+        <h1>SignUp</h1>
+        {% csrf_token %}
+<!--        {{serializer.username.name}}-->
+          {% render_form serializer %}
+<!--        {% for item in serializer %}-->
+
+<!--        <div class="form-group" style="padding:5px">-->
+<!--            <label class="col-sm-2 control-label"  style="font-size:25px; font-style:bold; color:black;"> {{ item.name }}</label>-->
+<!--            <div class="col-sm-10"><input type="text" name="{{ item.name }}" style ='margin:10px'></div>-->
+<!--        </div>-->
+<!--        {% endfor %}-->
+<!--        <div class="form-group" style="padding:5px">-->
+<!--            <div class="row">-->
+<!--            <label class="col-sm-2 control-label"  style="font-size:25px; font-style:bold; color:black; "> Username</label>-->
+<!--            <input type="text" class="col-sm-10" name="{{ serializer.username.name }}" />-->
+<!--                <label class="col-sm-2 control-label"  style="font-size:25px; font-style:bold; color:black; "> First Name</label>-->
+<!--            <input type="text" class="col-sm-10" name="{{ serializer.first_name.name }}" >-->
+<!--                <label class="col-sm-2 control-label"  style="font-size:25px; font-style:bold; color:black; "> Last Name</label>-->
+<!--            <input type="text" class="col-sm-10" name="{{ serializer.last_name.name }}" >-->
+<!--                <label class="col-sm-2 control-label"  style="font-size:25px; font-style:bold; color:black; "> Email</label>-->
+<!--            <input type="text" class="col-sm-10" name="{{ serializer.email.name }}" >-->
+<!--                <label class="col-sm-2 control-label"  style="font-size:25px; font-style:bold; color:black; "> Address</label>-->
+<!--                <textarea rows = "5" cols = "60" name = "{{ serializer.address.name }}" placeholder="address"> </textarea>-->
+<!--            <label class="col-sm-2 control-label"  style="font-size:25px; font-style:bold; color:black; "> Pincode</label>-->
+<!--            <input type="text" class="col-sm-10" name="{{ serializer.pincode.name }}" >-->
+<!--                <label class="col-sm-2 control-label"  style="font-size:25px; font-style:bold; color:black; "> Email</label>-->
+<!--            <input type="text" class="col-sm-10" name="{{ serializer.email.name }}" >-->
+                <div class="text-center" style="margin-top:50px"><input type="submit" class=' btn btn-success center' value="Save"></div>
+            </div>
+        </div>
+    </form>
+</div>
+{% endblock %}
+
