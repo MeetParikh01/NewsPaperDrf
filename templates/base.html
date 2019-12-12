@@ -57,11 +57,12 @@
                 <div class="col-md-4">
                     <div class="left_section">
                                             <span class="date">
-                                                Sunday .
+
+                                               {{day}}.
                                             </span>
                         <!-- Date -->
                                             <span class="time">
-                                                09 August . 2016
+                                                {{date}}
                                             </span>
                         <!-- Time -->
                         <div class="social">
@@ -88,8 +89,13 @@
                 <div class="col-md-4">
                     <div class="right_section">
                         <ul class="nav navbar-nav">
-                            <li><a href="{% url 'login' %}">Login</a></li>
-                            <li><a href="{% url 'registration' %}">Register</a></li>
+                             {% if user.is_authenticated %}
+                            <li><a href="{% url 'login' %}">Hi {{request.user.username}}</a></li>
+                            <li><a href="{% url 'registration' %}">logout</a></li>
+                            {% else %}
+                                <li><a href="{% url 'login' %}">Login</a></li>
+                                 <li><a href="{% url 'registration' %}">Register</a></li>
+                            {% endif %}
 
                         </ul>
                         <!-- Language Section -->
@@ -390,6 +396,7 @@
 <script src="{% static 'js/owl.carousel.min.js' %}"></script>
 
 <!-- Theme Script -->
+<script src="{% static 'js/login.js' %}"></script>
 <script src="{% static 'js/script.js' %}"></script>
  {% block javascript %}{% endblock %}
 </body>

@@ -7,8 +7,31 @@
         <h1>Login</h1>
         {% csrf_token %}
         {% render_form serializer %}
-        <div class="text-center" style="margin-top:50px"><input type="submit" class=' btn btn-success center'
+        <div class="text-center" style="margin-top:50px"><input type="submit" id="save" class=' btn btn-success center'
                                                                 value="Submit"></div>
     </form>
 </div>
+{% endblock %}
+{% block javascript %}
+  <script>
+        $("#save").click(function(){
+            event.preventDefault();
+           console.log('hi')
+           console.log( $( '#signup' ).serialize())
+             var data = $('#signup').serialize();
+             $.post({% url 'login' %}, data, function(response){
+
+        if (response.status == 'success'){
+            console.log(response.token)
+            window.location.href = "{% url 'index' %}";
+        }
+        else
+        {
+            console.log(response.status)
+        }
+
+
+    })
+});
+      </script>
 {% endblock %}

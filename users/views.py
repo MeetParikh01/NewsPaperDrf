@@ -1,5 +1,6 @@
 from django.contrib.auth import authenticate, login, logout
-from django.shortcuts import render, redirect
+from django.http import HttpResponse, JsonResponse
+from django.shortcuts import render, redirect, reverse
 from django.views import View, generic
 from rest_framework.response import Response
 from rest_framework.views import APIView
@@ -10,15 +11,26 @@ from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework import permissions, renderers
 from .models import CustomUser
 from rest_framework_jwt.settings import api_settings
-
+import json, datetime
+import requests
+from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
 
 
+def date_date():
+    date = datetime.datetime.now()
+    return date.strftime('%A'), date.strftime('%d %b %Y')
 # Create your views here.
-class Index(View):
+
+
+class IndexApiView(APIView):
+    permission_classes = [permissions.IsAuthenticatedOrReadOnly]
+    renderer_classes = [TemplateHTMLRenderer]
+
     def get(self, request):
-        return render(request, 'base.html')
+        day, date = date_date()
+        return Response({'date':date, 'day':day}, template_name='base.html')
 
 
 class SignUpApiView(APIView):
@@ -29,8 +41,9 @@ class SignUpApiView(APIView):
     permission_classes = [permissions.AllowAny]
 
     def get(self, request, format=None):
+        day, date = date_date()
         serializer = SignUpSerializer()
-        return Response({'serializer': serializer})
+        return Response({'serializer': serializer, 'date':date, 'day':day})
 
     def post(self, request, format=None):
         serializer = SignUpSerializer(data=request.data)
@@ -49,7 +62,8 @@ class LoginApiView(APIView):
 
     def get(self, request, format=None):
         serializer = LoginSerializer()
-        return Response({'serializer': serializer})
+        day, date = date_date()
+        return Response({'serializer': serializer,'date':date, 'day':day})
 
     def post(self, request, format=None):
         email = request.data.get('email')
@@ -57,25 +71,14 @@ class LoginApiView(APIView):
         user = authenticate(request, email=email, password=password)
         if user is not None:
             login(request, user)
+            data = json.dumps({'email': email, 'password': password})
+            headers={'content-type': 'application/json'}
+            response_login = requests.post('http://127.0.0.1:8000/api-token-auth/',
+                                          data=data, headers=headers)
+            response_login_dict = json.loads(response_login.content)
+            response_login_dict['status'] = 'success'
+            print(response_login_dict, '+++++++++++++')
+            # return Response(response_login_dict)
+            return JsonResponse(response_login_dict, status=status.HTTP_200_OK)
+        return JsonResponse({'status': 'fail'})
 
-            token = jwt_encode_handler(
-                    jwt_payload_handler(user)
-                )
-            # print(token, '+++++++++')
-            serializer = TokenSerializer(data={
-                # using drf jwt utility functions to generate a token
-                "token": jwt_encode_handler(
-                    jwt_payload_handler(user)
-                )})
-            # print(serializer.initial_data['token'])
-            print(serializer.is_valid(), '+++')
-            try:
-                if serializer.is_valid():
-                    # import code;
-                    # code.interact(local=dict(globals(), **locals()))
-                    print('============================')
-                    print(serializer.data.get('token'))
-                    return Response({'data': serializer.data.get('token')})
-            except Exception as e:
-                print(e)
-        return Response(status=status.HTTP_401_UNAUTHORIZED)

@@ -40,7 +40,7 @@ class LoginSerializer(serializers.ModelSerializer):
 
 
 class TokenSerializer(serializers.ModelSerializer):
-    token = serializers.CharField(max_length=255)
+    token = serializers.ReadOnlyField()
 
     class Meta:
         model = CustomUser
