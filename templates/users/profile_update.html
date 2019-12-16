@@ -1,0 +1,70 @@
+{% extends 'base.html' %}
+{% load rest_framework %}
+
+{% block content %}
+    <table  class='table table-borderless' style="margin-top:10px">
+        <thead><tr ><th style="text-align:center; color:black; font-style:bold; font-size:20px" colspan="2">Profile Details</th></tr></thead>
+
+            <tbody>
+                <form  data-id= '{{request.user.pk }}' data-url="{% url 'profileupdate' request.user.pk %}" id="update">
+            {% csrf_token %}
+                <tr>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Username:</td>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">
+                        <input type="text" id="username" name="username" style="text-align:center" value="{{profile.username}}">
+                    </td>
+                </tr>
+                <tr>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">First Name:</td>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">
+                        <input  id="first_name"type="text" name="first_name" value="{{profile.first_name}}" style="text-align:center">
+                    </td>
+                </tr>
+                <tr>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Last Name:</td>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">
+                         <input id="last_name" type="text" name="last_name" value="{{profile.last_name}}" style="text-align:center">
+                    </td>
+                </tr>
+                <tr>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Email:</td>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">
+                         <input id="email" type="text" name="email" value="{{profile.email}}" style="text-align:center">
+                    </td>
+                </tr>
+                <tr>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Contact:</td>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">
+                         <input id="contact" type="text" name="contact" value="{{profile.contact}}" style="text-align:center">
+                    </td>
+                </tr>
+                <tr>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Address:</td>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">
+                        <textarea  id="address" style="text-align:left" name="address">
+                             {{profile.address}}
+                        </textarea>
+                    </td>
+                </tr>
+                <tr>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Pincode:</td>
+                    <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">
+                         <input id="pincode" type="text" name="pincode" value="{{profile.pincode}}" style="text-align:center">
+                    </td>
+                </tr>
+                <tr>
+                    <td width='50%' align="right">
+                        <input type="submit" id="update_button" class="btn btn-success" value='update'>
+                        </td>
+                </form>
+                    <td  style="text-align:left ">
+                    <form data-id= '{{request.user.pk }}' data-url="{% url 'profileupdate' request.user.pk %}" id="delete">
+                        {% csrf_token %}
+                        <input type="submit" class="btn btn-danger" id='delete_button' value="Delete">
+                    </form>
+                    </td>
+                 </tr>
+            </tbody>
+
+    </table>
+{% endblock %}

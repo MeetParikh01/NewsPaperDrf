@@ -12,26 +12,3 @@
     </form>
 </div>
 {% endblock %}
-{% block javascript %}
-  <script>
-        $("#save").click(function(){
-            event.preventDefault();
-           console.log('hi')
-           console.log( $( '#signup' ).serialize())
-             var data = $('#signup').serialize();
-             $.post({% url 'login' %}, data, function(response){
-
-        if (response.status == 'success'){
-            console.log(response.token)
-            window.location.href = "{% url 'index' %}";
-        }
-        else
-        {
-            console.log(response.status)
-        }
-
-
-    })
-});
-      </script>
-{% endblock %}

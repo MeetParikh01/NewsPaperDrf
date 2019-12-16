@@ -39,9 +39,12 @@ class LoginSerializer(serializers.ModelSerializer):
         fields = ('email', 'password')
 
 
-class TokenSerializer(serializers.ModelSerializer):
-    token = serializers.ReadOnlyField()
+class ProfileSerializer(serializers.ModelSerializer):
+    username = serializers.CharField(style={'input_type': 'text'})
+    address = serializers.CharField(style={'base_template': 'textarea.html'})
+    email = serializers.EmailField()
 
     class Meta:
         model = CustomUser
-        fields = ('token', )
+        fields = ('username', 'first_name', 'last_name', 'email',
+                  'contact', 'address', 'pincode')

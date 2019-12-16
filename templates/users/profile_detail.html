@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load rest_framework %}
+
+{% block content %}
+<div class="table-responsive">
+    <table  class='table table-borderless' style="margin-top:10px">
+        <thead><tr ><th style="text-align:center; color:black; font-style:bold; font-size:20px" colspan="2">Profile Details</th></tr></thead>
+        <tbody>
+            <tr>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Username:</td>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">{{profile.username}}</td>
+            </tr>
+            <tr>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">First Name:</td>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">{{profile.first_name}}</td>
+            </tr>
+            <tr>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Last Name:</td>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">{{profile.last_name}}</td>
+            </tr>
+            <tr>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Email:</td>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">{{profile.email}}</td>
+            </tr>
+            <tr>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Contact:</td>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">{{profile.contact}}</td>
+            </tr>
+            <tr>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Address:</td>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">{{profile.address}}</td>
+            </tr>
+            <tr>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Pincode:</td>
+                <td width='50%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">{{profile.pincode}}</td>
+            </tr>
+
+        </tbody>
+    </table>
+    <table class='table'>
+         <tr>
+                <td  style="text-align:center; font-size:15px; font-family: arial">
+                    <a href="{% url 'profileupdate' request.user.pk %}" class="btn btn-success">Update/Delete</a>
+                </td>
+
+         </tr>
+    </table>
+</div>
+
+{% endblock %}
