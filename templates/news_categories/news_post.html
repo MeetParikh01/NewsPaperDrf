@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+{% load rest_framework %}
+
+{% block content %}
+<div class="container">
+    <form method="post" id="add_news" enctype='multipart/form-data' class="panel-body" action="">
+        <h1>Add News</h1>
+        {% csrf_token %}
+        {%  render_form serializer %}
+        <div class="text-center" style="margin-top:50px"><input type="submit" id="add_news_button" class=' btn btn-success center'
+                                                                value="Submit"></div>
+    </form>
+</div>
+{% endblock %}
+

@@ -23,9 +23,11 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('users.users_urls')),
+    path('', include('news_categories.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     path('api-token-auth/', obtain_jwt_token, name='token'),
     path('api-token-refresh/', refresh_jwt_token),
+    path('ckeditor/', include('ckeditor_uploader.urls')),
     path('api-token-verify/', verify_jwt_token)
 ]
 
