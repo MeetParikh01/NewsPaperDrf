@@ -98,6 +98,8 @@ AUTH_USER_MODEL = 'users.CustomUser'
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.PageNumberPagination',
     'PAGE_SIZE': 10,
+    # 'DATETIME_FORMAT': "%Y-%m-%dT%H:%M:%S.%fZ",
+    'DATETIME_FORMAT': "%d%b-%Y",
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
         'rest_framework.renderers.BrowsableAPIRenderer',
@@ -177,7 +179,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'Asia/Calcutta'
 
 USE_I18N = True
 
@@ -188,18 +190,17 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
-CKEDITOR_UPLOAD_PATH = "images/"
 
 CKEDITOR_CONFIGS = {
     'default': {
-        'toolbar': 'Custom',
-        'toolbar_Custom': [
-            ['Bold', 'Italic', 'Underline'],
-            ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
-            ['Link', 'Unlink'],
-            ['RemoveFormat', 'Source']
-        ]
+        'toolbar': 'full',
+        'extraPlugins': 'uploadimage'
+        # 'toolbar_Custom': [
+        #     ['Bold', 'Italic', 'Underline', 'Image'],
+        #     ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+        #     ['Link', 'Unlink'],
+        #     ['RemoveFormat', 'Source']
+        # ]
     }
 }
 
@@ -211,3 +212,6 @@ STATICFILES_DIRS=[os.path.join(BASE_DIR, 'static'), ]
 MEDIA_URL = '/media/'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 # MEDIA_ROOT = 'media/'
+CKEDITOR_BASEPATH = "/static/ckeditor/ckeditor/"
+CKEDITOR_UPLOAD_PATH = "images/"
+CKEDITOR_IMAGE_BACKEND = "pillow"

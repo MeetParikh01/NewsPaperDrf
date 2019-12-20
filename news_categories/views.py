@@ -4,9 +4,12 @@ from rest_framework import status, permissions, renderers
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
 from rest_framework.generics import ListCreateAPIView
-from .models import NewCategoriesModel, AddNewsModel
-from .serializers import AddNewsSerializer, NewsCategoriesSerializer, Add
+from rest_framework.views import APIView
+from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
+from .models import NewCategoriesModel, AddNewsModel
+from .serializers import AddNewsSerializer, NewsCategoriesSerializer, Add, NewsGroupbyCategorySerializer
+from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 def date_date():
     date = datetime.datetime.now()
@@ -17,6 +20,7 @@ def date_date():
 class AddNewsApiView(ListCreateAPIView):
     renderer_classes = [renderers.TemplateHTMLRenderer]
     parser_classes = (FormParser, JSONParser, MultiPartParser)
+    # authentication_classes = (JSONWebTokenAuthentication,)
     permission_classes = [permissions.IsAuthenticated]
     queryset = AddNewsModel.objects.all()
     serializer_class = Add
@@ -39,3 +43,15 @@ class AddNewsApiView(ListCreateAPIView):
 
     # def perform_create(self, serializer):
     #     serializer.save(user=self.request.user)
+
+
+class NewsDisplay(APIView):
+    # renderer_classes = [renderers.TemplateHTMLRenderer]
+    # parser_classes = (FormParser, JSONParser, MultiPartParser)
+    permission_classes = [permissions.IsAuthenticated]
+    # authentication_classes = (JSONWebTokenAuthentication, )
+
+    def get(self, request, *args, **kwargs):
+        data= AddNewsModel.objects.all()
+        serializer = NewsGroupbyCategorySerializer(data)
+        return Response(serializer.data)

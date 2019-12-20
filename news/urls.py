@@ -14,11 +14,14 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 from django.conf import settings
 from django.conf.urls.static import static
+from django.views.decorators.cache import never_cache
+from django.views.static import serve
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
-
+from ckeditor_uploader import views
+from django.contrib.auth.decorators import login_required
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -28,6 +31,8 @@ urlpatterns = [
     path('api-token-auth/', obtain_jwt_token, name='token'),
     path('api-token-refresh/', refresh_jwt_token),
     path('ckeditor/', include('ckeditor_uploader.urls')),
+    path('ckeditor/upload/', login_required(views.upload), name='ckeditor_upload'),
+    path('ckeditor/browse/', never_cache(login_required(views.browse)), name='ckeditor_browse'),
     path('api-token-verify/', verify_jwt_token)
 ]
 
@@ -35,3 +40,6 @@ urlpatterns = [
 urlpatterns += static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    # urlpatterns += [re_path(r'^media/(?P<path>.*)$', serve, {
+    #         'document_root': settings.MEDIA_ROOT
+    #     })]

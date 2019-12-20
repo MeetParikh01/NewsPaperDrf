@@ -18,7 +18,8 @@ from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify
 from news_categories.serializers import NewsCategoriesSerializer
 jwt_payload_handler = api_settings.JWT_PAYLOAD_HANDLER
 jwt_encode_handler = api_settings.JWT_ENCODE_HANDLER
-from news_categories.models import NewCategoriesModel
+from news_categories.models import NewCategoriesModel, AddNewsModel
+from news_categories.serializers import NewsGroupbyCategorySerializer
 
 
 def date_date():
@@ -32,9 +33,13 @@ class IndexApiView(APIView):
 
     def get(self, request):
         day, date = date_date()
+        # data = AddNewsModel.objects.all()
+        # serializer = NewsGroupbyCategorySerializer(data)
+        # print(serializer.data)
         news_categories = NewCategoriesModel.objects.all()
         newsserializer = NewsCategoriesSerializer(news_categories, many=True)
-        return Response({'news':newsserializer.data,'date': date, 'day': day}, template_name='base.html')
+        return Response({'news': newsserializer.data,
+                         'date': date, 'day': day}, template_name='homepage.html')
 
 
 class SignUpApiView(APIView):

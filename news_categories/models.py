@@ -6,6 +6,7 @@ from PIL import Image
 from imagekit.models import ImageSpecField
 from imagekit.processors import ResizeToFill
 
+
 # Create your models here.
 class NewCategoriesModel(models.Model):
     category_name = models.CharField(max_length=200)
@@ -27,6 +28,7 @@ class AddNewsModel(models.Model):
     user = models.ForeignKey(CustomUser, on_delete=models.CASCADE, null=True)
     news_category = models.ForeignKey(NewCategoriesModel,
                                       on_delete=models.CASCADE, null=True)
+    date = models.DateTimeField(auto_now_add=True, null=True, blank=True)
 
     def __str__(self):
         return self.news_title
