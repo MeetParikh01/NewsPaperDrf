@@ -20,22 +20,26 @@ function Body(data){
     htmlData = '';
    $.each( data, function( key, value ) {
             htmlData += '<div class="article_title header_pink">'+
-                            '<h2><a href="category.html" target="_self">'+ key+'</a></h2></div>';
+                            '<h2>'+ key+'</h2></div>';
 
             htmlData += '<div class="category_article_wrapper">'+
                             '<div class="row">'
             $.each( value, function( key, value ) {
-                    htmlData += '<div class="col-md-4" style="min-height: 318px;">'+
+                    var news_body = value.news_body
+                    var end = news_body.indexOf('</p>')
+
+                    htmlData += '<div class="col-md-4" style="min-height: 620px;margin-top:0px">'+
                                     '<div class="category_article_body">'+
                                         '<div class="top_article_img">'+
-                                            '<a href="single.html" target="_self">'+
+                                            '<a href="/news_detail/'+value.id+'" target="_self">'+
                                                 '<img class="img-responsive" src="'+value.thumbnail+'" alt="feature-top">'+
                                             '</a>'+
                                         '</div>'+
                                         '<div>'+
-                                                '<h5 style="font-size:20px"><a href="single.html" target="_self">'+value.news_title+'</a></h5>'+
+                                                '<h5 style="font-size:20px"><a href="/news_detail/'+value.id+'" target="_self">'+value.news_title+'</a></h5>'+
                                         '</div>'+
-                                        '<div class="article_date"><a href="#">'+value.date+'</a></div>'+
+                                        '<div class="article_date"><a href="/news_detail/'+value.id+'">'+value.date+'</a>,  by: <a href="#">'+value.author+'</a></div>'+
+                                        '<div class="category_article_content">'+news_body.slice(0, end+4)+'</div>'+
                                     '</div>'+
                                 '</div>';
 

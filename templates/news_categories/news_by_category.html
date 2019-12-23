@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load rest_framework %}
+{% load limit_news_body %}
+
+{% block content %}
+<div class="container category_section tablet">
+    <div class="article_title header_pink">
+        <h2> {{category}} </h2>
+    </div>
+    <div class="category_article_wrapper">
+        {% for data in news_category %}
+        <div class="row" style="min-height:300px">
+            <div class="col-md-3" >
+                <div class="top-article_img">
+                    <a href="{% url 'news_detail' pk=data.id %}" target="_self">
+                        <img class="img-responsive" src="{{data.image}}" alt="feature-top">
+                    </a>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <span class="tag purple">{{data.news_category}}</span>
+                 <div class="category_article_title">
+                    <h2><a href="{% url 'news_detail' pk=data.id %}" target="_self">{{data.news_title}} </a></h2>
+                </div>
+                <div class="category_article_date"><a href="#">{{data.date}}</a>, by: <a href="#">{{data.user}}</a></div>
+                <div class="category_article_content">
+                        {{data.news_body | body }}
+                </div>
+            </div>
+
+        </div>
+        {% endfor %}
+    </div>
+
+
+</div>
+{% endblock %}

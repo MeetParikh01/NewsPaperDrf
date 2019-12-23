@@ -142,9 +142,9 @@
                     <!-- Collect the nav links, forms, and other content for toggling -->
                     <div class="collapse navbar-collapse" id="#navbar-collapse-1">
                         <ul class="nav navbar-nav main-nav">
-                            <li class="active"><a href="index.html">News</a></li>
+                            <li class="active"><a href="/">News</a></li>
                             {% for nws in news %}
-                                <li><a href="#">{{nws.category_name}}</a></li>
+                                <li><a href="{% url 'news_category' pk=nws.id %}">{{nws.category_name}}</a></li>
                             {% endfor %}
 
                             {% if user.is_authenticated %}

@@ -98,6 +98,20 @@ class NewsGroupbyCategorySerializer(serializers.Serializer):
         #            , many=True).data
 
 
+class NewsDetailOrByCategorySerializer(serializers.ModelSerializer):
+
+    class Meta:
+        model = AddNewsModel
+        fields = '__all__'
+
+    def to_representation(self, instance):
+        data = super(NewsDetailOrByCategorySerializer, self).to_representation(instance)
+        data.update({'user': instance.user.first_name+' '+instance.user.last_name,
+                        'news_category':instance.news_category.category_name})
+        return data
+
+
+
 
 # class NewsListSerializer(serializers.ListSerializer):
 #

@@ -3,12 +3,13 @@ from django.shortcuts import render, redirect
 from rest_framework import status, permissions, renderers
 from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework.response import Response
-from rest_framework.generics import ListCreateAPIView
+from rest_framework.generics import ListCreateAPIView, RetrieveAPIView
 from rest_framework.views import APIView
 from rest_framework_jwt.authentication import JSONWebTokenAuthentication
 
 from .models import NewCategoriesModel, AddNewsModel
-from .serializers import AddNewsSerializer, NewsCategoriesSerializer, Add, NewsGroupbyCategorySerializer
+from .serializers import AddNewsSerializer, NewsCategoriesSerializer,\
+    Add, NewsGroupbyCategorySerializer,  NewsDetailOrByCategorySerializer
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
 def date_date():
@@ -55,3 +56,38 @@ class NewsDisplay(APIView):
         data= AddNewsModel.objects.all()
         serializer = NewsGroupbyCategorySerializer(data)
         return Response(serializer.data)
+
+
+class NewsDetailApiView(RetrieveAPIView):
+    renderer_classes = [renderers.TemplateHTMLRenderer]
+    parser_classes = (FormParser, JSONParser, MultiPartParser)
+    queryset = AddNewsModel.objects.all()
+    serializer_class = NewsDetailOrByCategorySerializer
+
+    def get(self, request, *args, **kwargs):
+        day, date = date_date()
+        news_detail = self.get_object()
+        news_categories = NewCategoriesModel.objects.all()
+        newsserializer = NewsCategoriesSerializer(news_categories, many=True)
+        serializer = self.get_serializer(news_detail)
+        return Response({'news':newsserializer.data, 'news_detail': serializer.data, 'date': date, 'day': day},
+                        template_name='news_categories/news_detail.html')
+
+
+class NewsCategoryApiView(RetrieveAPIView):
+    serializer_class = NewsDetailOrByCategorySerializer
+    renderer_classes = [renderers.TemplateHTMLRenderer]
+    parser_classes = (FormParser, JSONParser, MultiPartParser)
+
+    def get(self, request, *args, **kwargs):
+        day, date = date_date()
+        news_category = AddNewsModel.objects.filter(news_category=kwargs.get('pk'))\
+            .order_by('id')
+        news_categories = NewCategoriesModel.objects.all()
+        newsserializer = NewsCategoriesSerializer(news_categories, many=True)
+        serializer = self.get_serializer(news_category, many=True)
+        category_name = serializer.data[0].get('news_category')
+        return Response({'news': newsserializer.data,'category':category_name, 'news_category': serializer.data, 'date': date, 'day': day},
+                        template_name='news_categories/news_by_category.html')
+
+
