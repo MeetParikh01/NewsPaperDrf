@@ -131,6 +131,7 @@ class ProfileDetailApiView(RetrieveUpdateDestroyAPIView):
         day, date = date_date()
         user = self.get_object()
         serializer = self.get_serializer(user,data=request.data)
+        print(serializer)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return JsonResponse({'status': 'success'})

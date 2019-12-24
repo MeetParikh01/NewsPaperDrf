@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load rest_framework %}
+
+{% block content %}
+<div class="container">
+<form  data-id= '{{post.id }}'  enctype="multipart/form-data" data-url="{% url 'news_modify_byuser' pk=post.id %}" id="update_post">
+    {% csrf_token %}
+    <div class="form-group ">
+        <label>News title</label>
+        <input name="news_title" id="news_title" class="form-control" type="text" value="{{post.news_title}}">
+    </div>
+    <div class="form-group ">
+        <label>Image</label>
+        <h5>current image: <img src="{{post.image}}"> </h5>
+        <input name="image" id="image" class="form-control" type="file" value="">
+    </div>
+    <div class="form-group ">
+        <label>News Category</label>
+            <select class="form-control" name="news_category" id="news_category">
+                 {% for category in news%}
+                    <option value="{{category.id}}" name="news_category"  {% if category.id == post.news_category %}selected{% endif %}>
+                        {{category.category_name}}</option>
+                 {% endfor %}
+            </select>
+    </div>
+    <div class="form-group ">
+        <label>
+          News body
+        </label>
+        <textarea name="news_body" id="news_body" class="form-control ckeditor" style="visibility: hidden; display: none;">
+            {{post.news_body}}
+        </textarea>
+    </div>
+    <div class="text-center" style="margin-top:50px">
+        <input type="submit" id="update_post_button" class=" btn btn-success center" value="Update">
+        <input type="submit" id="delete_post_button" class=" btn btn-danger center" value="Delete">
+    </div>
+</form>
+</div>
+{% endblock %}
+        <!--    <table  class='table table-borderless' style="margin-top:10px">-->
+<!--        <thead><tr ><th style="text-align:center; color:black; font-style:bold; font-size:20px" colspan="2">Profile Details</th></tr></thead>-->
+
+<!--            <tbody>-->
+<!--                <form  data-id= '{{post.id }}' data-url="{% url 'news_modify_byuser' request.user.pk %}" id="update_post">-->
+<!--            {% csrf_token %}-->
+<!--                <tr>-->
+<!--                    <td width='15%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Title:</td>-->
+<!--                    <td width='85%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">-->
+<!--                        <input type="text" id="news_title" name="news_title" style="text-align:center" value="{{post.news_title}}">-->
+<!--                    </td>-->
+<!--                </tr>-->
+
+
+<!--                <tr>-->
+<!--                    <td width='15%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Image: <img src = '{{post.thumbnail}}'> </td>-->
+<!--                    <td width='85%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">-->
+<!--                         <input id="image" type="file" name="image" value="{{profile.email}}" style="text-align:center">-->
+<!--                    </td>-->
+<!--                </tr>-->
+
+<!--                <tr>-->
+<!--                    <td width='15%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">News Body:</td>-->
+<!--                    <td width='85%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">-->
+<!--                        <textarea  class="ckeditor" id="news_body" name="news_body" style="text-align:left" name="address">-->
+<!--                             {{post.news_body}}-->
+<!--                        </textarea>-->
+<!--                    </td>-->
+<!--                </tr>-->
+<!--                    <tr>-->
+<!--                    <td width='15%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">Email:</td>-->
+<!--                    <td width='85%' style="text-align:center; color:black; font-style:bold; font-size:15px; font-family: arial">-->
+<!--                         <select>-->
+<!--                             {% for category in news%}-->
+<!--                                <option value="{{category.id}}" name="news_category"-->
+<!--                                        {% if category.id == post.news_category %}selected{% endif %}>-->
+<!--                                    {{category.category_name}}</option>-->
+<!--                             {% endfor %}-->
+<!--                         </select>-->
+<!--                    </td>-->
+<!--                </tr>-->
+
+<!--                <tr>-->
+<!--                    <td width='50%' align="right">-->
+<!--                        <input type="submit" id="update_post_button" class="btn btn-success" value='update'>-->
+<!--                        </td>-->
+<!--                </form>-->
+<!--                    <td  style="text-align:left ">-->
+<!--                    <form data-id= '{{request.user.pk }}' data-url="{% url 'news_modify_byuser' request.user.pk %}" id="delete_post">-->
+<!--                        {% csrf_token %}-->
+<!--                        <input type="submit" class="btn btn-danger" id='delete_post_button' value="Delete">-->
+<!--                    </form>-->
+<!--                    </td>-->
+<!--                 </tr>-->
+<!--            </tbody>-->
+
+<!--    </table>-->

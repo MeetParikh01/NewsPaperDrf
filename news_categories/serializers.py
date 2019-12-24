@@ -100,9 +100,11 @@ class NewsGroupbyCategorySerializer(serializers.Serializer):
 
 class NewsDetailOrByCategorySerializer(serializers.ModelSerializer):
 
+    thumbnail = serializers.ImageField(read_only=True)
+
     class Meta:
         model = AddNewsModel
-        fields = '__all__'
+        fields = ('id', 'user', 'news_category', 'date', 'thumbnail', 'news_title', 'news_body', 'image')
 
     def to_representation(self, instance):
         data = super(NewsDetailOrByCategorySerializer, self).to_representation(instance)
@@ -111,7 +113,12 @@ class NewsDetailOrByCategorySerializer(serializers.ModelSerializer):
         return data
 
 
+class NewsModifySerializer(serializers.ModelSerializer):
+    # thumbnail = serializers.ImageField(read_only=True)
 
+    class Meta:
+        model = AddNewsModel
+        fields = ('id',  'news_category',   'news_title', 'news_body', 'image')
 
 # class NewsListSerializer(serializers.ListSerializer):
 #

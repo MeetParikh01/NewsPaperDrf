@@ -6,11 +6,8 @@ $.ajax({
 
                 },
                 success: function (data) {
-                    console.log(data)
                     var str =data.Mobile[0].news_body
                     var end = str.indexOf('</p>')
-                    console.log(end)
-                    console.log(str.slice(0, end+4))
                     $('#fields_body').html(Body(data))
                 }
             });

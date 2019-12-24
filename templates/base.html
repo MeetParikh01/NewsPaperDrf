@@ -150,6 +150,8 @@
                             {% if user.is_authenticated %}
                             <li><a href="{% url 'profile' request.user.pk %}">Profile</a></li>
                             <li><a href="{% url 'add_news' %}">Add News</a></li>
+                            <li><a href="{% url 'news_postedby_user' %}">My Post</a></li>
+
                             {% endif %}
                         </ul>
                     </div>
@@ -360,6 +362,7 @@
 <!-- Theme Script -->
 <script src="{% static 'js/index.js' %}"></script>
 <script src="{% static 'js/ajax_setup.js' %}"></script>
+<script src="{% static 'js/news_update_delete.js' %}"></script>
 <script src="{% static 'js/login.js' %}"></script>
 <script src="{% static 'js/profile.js' %}"></script>
 <script src="{% static 'js/script.js' %}"></script>
