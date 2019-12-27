@@ -28,6 +28,7 @@ urlpatterns = [
     path('', include('users.users_urls')),
     path('', include('news_categories.urls')),
     path('api-auth/', include('rest_framework.urls', namespace='rest_framework')),
+    path('rest-auth/', include('rest_auth.urls')),
     path('api-token-auth/', obtain_jwt_token, name='token'),
     path('api-token-refresh/', refresh_jwt_token),
     path('ckeditor/', include('ckeditor_uploader.urls')),

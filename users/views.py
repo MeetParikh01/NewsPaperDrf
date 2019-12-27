@@ -12,7 +12,7 @@ from rest_framework.parsers import FormParser, JSONParser, MultiPartParser
 from rest_framework import permissions, renderers
 from .models import CustomUser
 from rest_framework_jwt.settings import api_settings
-import json, datetime
+import json, datetime,jwt
 import requests
 from rest_framework_jwt.views import obtain_jwt_token, refresh_jwt_token, verify_jwt_token
 from news_categories.serializers import NewsCategoriesSerializer
@@ -79,16 +79,37 @@ class LoginApiView(APIView):
         return Response({'news':newsserializer.data,'serializer': serializer, 'date': date, 'day': day})
 
     def post(self, request, format=None):
-        email = request.data.get('email')
-        password = request.data.get('password')
-        user = authenticate(request, email=email, password=password)
+        if request.headers.get('Http-Authentication'):
+            token = request.headers.get('Http-Authentication').split(' ')[1]
+            decoded_token = jwt.decode(token, None, None)
+            if int(decoded_token.get('exp'))-int(decoded_token.get('iat')) >0:
+                username = decoded_token.get('email')
+                email = decoded_token.get('email')
+                first_name = decoded_token.get('given_name')
+                last_name = decoded_token.get('family_name')
+                try:
+                    user = CustomUser.objects.get(email=email)
+                except CustomUser.DoesNotExist:
+                    user = CustomUser.objects.create(username=username, email=email, password='',
+                                              first_name=first_name, last_name=last_name, contact='', address='')
+                    user.set_password(email)
+                    user.save()
+
+                user = authenticate(request, email=email, password=email)
+        else:
+            email = request.data.get('email')
+            password = request.data.get('password')
+            user = authenticate(request, email=email, password=password)
         if user is not None:
+            if not request.headers.get('Http-Authentication'):
+                data = json.dumps({'email': email, 'password': password})
+                headers = {'content-type': 'application/json'}
+                response_login = requests.post('http://127.0.0.1:8000/api-token-auth/',
+                                               data=data, headers=headers)
+                response_login_dict = json.loads(response_login.content)
+            else:
+                response_login_dict ={'token': token}
             login(request, user)
-            data = json.dumps({'email': email, 'password': password})
-            headers = {'content-type': 'application/json'}
-            response_login = requests.post('http://127.0.0.1:8000/api-token-auth/',
-                                           data=data, headers=headers)
-            response_login_dict = json.loads(response_login.content)
             response_login_dict['status'] = 'success'
             return JsonResponse(response_login_dict, status=status.HTTP_200_OK)
         return JsonResponse({'status': 'fail'})

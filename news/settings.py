@@ -25,7 +25,7 @@ SECRET_KEY = 'w5*xj)-$4-qre&f9rh^5!!&os!jq1f0fkdvs89wj8g8#)_8@y^'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -39,6 +39,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
+    # 'rest_auth',
+    # 'social_django',
+    # 'rest_social_auth',
     'users',
     'news_categories',
     'ckeditor',
@@ -79,7 +82,14 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'news.wsgi.application'
 
+# SOCIAL_AUTH_GOOGLE_KEY = '509234881918-6hah9cha3hodq25g5fk0cf70opl0fn84.apps.googleusercontent.com'
+# SOCIAL_AUTH_GOOGLE_SECRET = 'v-7S55bvBFOzU06EgEIu2Odb'
 
+# AUTHENTICATION_BACKENDS = (
+#     'social_core.backends.google.GoogleOAuth2',
+#     # and maybe some others ...
+#     'django.contrib.auth.backends.ModelBackend',
+# )
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
@@ -138,13 +148,13 @@ JWT_AUTH = {
 
 
     'JWT_ALLOW_REFRESH':True,
-    'JWT_EXPIRATION_DELTA': datetime.timedelta(hours=1),
-    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
+    'JWT_EXPIRATION_DELTA': datetime.timedelta(minutes=20),
+    'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(seconds=1000),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
     'JWT_AUTH_COOKIE': None,
     'JWT_AUDIENCE': None,
     'JWT_ISSUER': None,
-    'JWT_ALLOW_REFRESH': False,
+    # 'JWT_ALLOW_REFRESH': False,
     'JWT_SECRET_KEY': SECRET_KEY,
     'JWT_GET_USER_SECRET_KEY': None,
     'JWT_PUBLIC_KEY': None,

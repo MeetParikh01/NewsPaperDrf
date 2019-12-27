@@ -1,5 +1,4 @@
 {% load static %}
-<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8">
@@ -35,7 +34,8 @@
     <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor-init.js' %}"></script>
     <script type="text/javascript" src="{% static 'ckeditor/ckeditor/ckeditor.js' %}"></script>
-
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <meta name="google-signin-client_id" content="509234881918-6hah9cha3hodq25g5fk0cf70opl0fn84.apps.googleusercontent.com">
 </head>
 
 <body id="page-top" data-spy="scroll" data-target=".navbar">
@@ -153,6 +153,8 @@
                             <li><a href="{% url 'news_postedby_user' %}">My Post</a></li>
 
                             {% endif %}
+                            <li><div class="g-signin2" onclick="ClickLogin()" data-onsuccess="onSignIn"></div></li>
+                            <li><a href="#" onclick="signOut();">Sign out</a></li>
                         </ul>
                     </div>
                     <!-- .navbar-collapse -->
@@ -348,6 +350,20 @@
 <!-- #main-wrapper -->
 
 <!-- jquery Core-->
+<script>
+<!--    function onSignIn(googleUser) {-->
+<!--        var profile = googleUser.getAuthResponse()-->
+<!--        console.log(profile.id_token)-->
+
+<!--        }-->
+<!--    function signOut() {-->
+<!--    var auth2 = gapi.auth2.getAuthInstance();-->
+<!--    auth2.signOut().then(function () {-->
+<!--      console.log('User signed out.');-->
+<!--    });-->
+<!--  }-->
+</script>
+
 <script src="{% static 'js/jquery-2.1.4.min.js' %}"></script>
 
 <!-- Bootstrap -->
@@ -363,6 +379,7 @@
 <script src="{% static 'js/index.js' %}"></script>
 <script src="{% static 'js/ajax_setup.js' %}"></script>
 <script src="{% static 'js/news_update_delete.js' %}"></script>
+<script src="{% static 'js/social.js' %}"></script>
 <script src="{% static 'js/login.js' %}"></script>
 <script src="{% static 'js/profile.js' %}"></script>
 <script src="{% static 'js/script.js' %}"></script>
