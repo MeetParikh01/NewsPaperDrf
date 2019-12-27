@@ -82,8 +82,8 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'news.wsgi.application'
 
-# SOCIAL_AUTH_GOOGLE_KEY = '509234881918-6hah9cha3hodq25g5fk0cf70opl0fn84.apps.googleusercontent.com'
-# SOCIAL_AUTH_GOOGLE_SECRET = 'v-7S55bvBFOzU06EgEIu2Odb'
+# SOCIAL_AUTH_GOOGLE_KEY = ''
+# SOCIAL_AUTH_GOOGLE_SECRET = ''
 
 # AUTHENTICATION_BACKENDS = (
 #     'social_core.backends.google.GoogleOAuth2',
