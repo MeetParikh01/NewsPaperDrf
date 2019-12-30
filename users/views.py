@@ -115,6 +115,18 @@ class LoginApiView(APIView):
         return JsonResponse({'status': 'fail'})
 
 
+class LogoutApiView(APIView):
+    permission_classes = [permissions.IsAuthenticated]
+    renderer_classes = [TemplateHTMLRenderer]
+    parser_classes = (FormParser, JSONParser, MultiPartParser)
+
+    def get(self, request, *args, **kwargs):
+        logout(request)
+        day, date = date_date()
+        news_categories = NewCategoriesModel.objects.all()
+        newsserializer = NewsCategoriesSerializer(news_categories, many=True)
+        return Response({'news': newsserializer.data,
+                         'date': date, 'day': day}, template_name='homepage.html')
 class ProfileApiView(RetrieveAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = ProfileSerializer

@@ -51,7 +51,7 @@ class AddNewsApiView(ListCreateAPIView):
 class NewsDisplay(APIView):
     # renderer_classes = [renderers.TemplateHTMLRenderer]
     # parser_classes = (FormParser, JSONParser, MultiPartParser)
-    permission_classes = [permissions.IsAuthenticated]
+    permission_classes = [permissions.AllowAny]
     # authentication_classes = (JSONWebTokenAuthentication, )
 
     def get(self, request, *args, **kwargs):

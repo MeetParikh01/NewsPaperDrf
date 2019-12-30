@@ -6,7 +6,7 @@ var token = ''
 function onSignIn(googleUser) {
         if(clicked){
             var  profile = googleUser.getAuthResponse()
-        token = 'Bearer '+profile.id_token
+        var token = 'Bearer '+profile.id_token
         console.log(token)
         var csrftoken = getCookie('csrftoken');
          $.ajaxSetup({

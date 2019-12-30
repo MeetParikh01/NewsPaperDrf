@@ -1,3 +1,4 @@
+ var token = ''
      $("#save").click(function(){
             event.preventDefault();
 
@@ -6,6 +7,8 @@
 
         if (response.status == 'success'){
             console.log('hi')
+            token = response.token
+            Cookies.set("token", token)
             window.location.href = "/";
         }
         else
