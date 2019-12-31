@@ -65,6 +65,7 @@ class NewsDetailApiView(RetrieveAPIView):
     parser_classes = (FormParser, JSONParser, MultiPartParser)
     queryset = AddNewsModel.objects.all()
     serializer_class = NewsDetailOrByCategorySerializer
+    permission_classes = [permissions.AllowAny]
 
     def get(self, request, *args, **kwargs):
         day, date = date_date()
@@ -80,7 +81,7 @@ class NewsCategoryApiView(RetrieveAPIView):
     serializer_class = NewsDetailOrByCategorySerializer
     renderer_classes = [renderers.TemplateHTMLRenderer]
     parser_classes = (FormParser, JSONParser, MultiPartParser)
-
+    permission_classes = [permissions.AllowAny]
     def get(self, request, *args, **kwargs):
         day, date = date_date()
         news_category = AddNewsModel.objects.filter(news_category=kwargs.get('pk'))\
