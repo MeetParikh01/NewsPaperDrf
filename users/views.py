@@ -127,6 +127,8 @@ class LogoutApiView(APIView):
         newsserializer = NewsCategoriesSerializer(news_categories, many=True)
         return Response({'news': newsserializer.data,
                          'date': date, 'day': day}, template_name='homepage.html')
+
+
 class ProfileApiView(RetrieveAPIView):
     queryset = CustomUser.objects.all()
     serializer_class = ProfileSerializer
