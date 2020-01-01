@@ -58,7 +58,7 @@ class SignUpApiView(APIView):
 
     def post(self, request, format=None):
         serializer = SignUpSerializer(data=request.data)
-        if serializer.is_valid():
+        if serializer.is_valid(raise_exception=True):
             serializer.save()
             return redirect('index')
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
@@ -166,7 +166,6 @@ class ProfileDetailApiView(RetrieveUpdateDestroyAPIView):
         day, date = date_date()
         user = self.get_object()
         serializer = self.get_serializer(user,data=request.data)
-        print(serializer)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
         return JsonResponse({'status': 'success'})
