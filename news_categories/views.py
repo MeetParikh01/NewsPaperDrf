@@ -14,6 +14,7 @@ from .serializers import AddNewsSerializer, NewsCategoriesSerializer,\
     Add, NewsGroupbyCategorySerializer,  NewsDetailOrByCategorySerializer, NewsModifySerializer
 from rest_framework.authentication import SessionAuthentication, BasicAuthentication
 
+
 def date_date():
     date = datetime.datetime.now()
     return date.strftime('%A'), date.strftime('%d %b %Y')
@@ -133,10 +134,28 @@ class NewsEditOrDeletePostedByUserApiView(RetrieveUpdateDestroyAPIView):
         serializer = self.get_serializer(news, data=data)
         serializer.is_valid(raise_exception=True)
         self.perform_update(serializer)
-        print(serializer.data)
         return JsonResponse({'status': 'success'})
 
     def destroy(self, request, *args, **kwargs):
         news = self.get_object()
         news.delete()
         return JsonResponse({'status':'success'})
+
+
+class DuplicateNewsPostedByUserApiView(RetrieveAPIView):
+    serializer_class = NewsDetailOrByCategorySerializer
+    renderer_classes = [renderers.TemplateHTMLRenderer]
+    parser_classes = (FormParser, JSONParser, MultiPartParser)
+    authentication_classes = (JSONWebTokenAuthentication, )
+
+    def get(self, request, *args, **kwargs):
+        print(request.headers)
+        day, date = date_date()
+        news_category = AddNewsModel.objects.filter(user=request.user) \
+            .order_by('id')
+        news_categories = NewCategoriesModel.objects.all()
+        newsserializer = NewsCategoriesSerializer(news_categories, many=True)
+        serializer = self.get_serializer(news_category, many=True)
+        return Response(
+            {'news': newsserializer.data, 'news_category': serializer.data, 'date': date,
+             'day': day}, template_name='news_categories/news_postedby_user.html')
