@@ -20,7 +20,7 @@ more-itertools==8.0.2
 oauthlib==3.1.0
 packaging==19.2
 pilkit==2.0
-Pillow==6.2.1
+Pillow==8.2.0
 pluggy==0.13.1
 psycopg2-binary==2.8.4
 py==1.8.1
